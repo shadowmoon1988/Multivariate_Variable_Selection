@@ -1,0 +1,117 @@
+---
+title: "Simulation Results"
+author: "Ying Baolong"
+date: "March 28, 2016"
+output: pdf_document
+---
+
+# Settings
+
+The covaraites in **X** are multivariate normal with mean **0** and covariance $I_P$.
+
+For each respones, we randomly select $p_0$ covariated to be its true features, where $p_0=4n^{0.16}$.
+Let $u \sim Bernoulli(0.4)$, and $z$ be a normal random variable with mean 0 and satsifying that $P(|z| \geq 0.1)=0.25$.
+The true features' coefficients are independently generated from the random variable $(-1)^u(4n^{-0.15}+|z|), the rest coefficients are 0.
+
+The random error matrix *E* generated from in-built function `huge.generator` in R package `huge`. It will generated n samples which follow q-dimensional 
+multivariate normal distribution with sparisity precision matrix. Then use two functions, CDF transformation or Power transformation, to generated the Nonparanormal 
+distribution.
+
+We will compared our methods with 3 other methods:
+
+* Seperate Lasso
+* MRCE
+* Simulataneous Variable Selection  
+
+The results are tested under 24 different circumstances with $n=100,500,1000$ and $p=100,200,500,1000$, q is settle to be constant 10.
+
+# Simulation results
+
+------------------------------------------------------------------------------
+  n=                  100                 500                 1000
+----- ------------ --------- --------- --------- --------- --------- ---------
+  p      Method       FDR       PDR       FDR       PDR       FDR       PDR
+ 
+ 100   Our Method   0.2105    0.5422    0.1265    0.6449    0.1733    0.5905
+ 
+       Sep Lasso    0.7976    1.0000    0.7958    1.0000    0.7687    1.0000
+ 
+       MRCE         0.9032    0.1446    0.8133    1.0000    0.7558    1.0000
+       
+       Simultaneous 0.6981    0.1928    0.6563    0.2056    0.5313    0.1429
+ 
+ 200   Our Method   0.1525    0.6329    0.1940    0.6279    0.1707    0.5913
+ 
+       Sep Lasso    0.8686    1.0000    0.8549    1.0000    0.8252    1.0000
+ 
+       MRCE         0.9559    0.1139    0.9264    1.0000    0.8491    1.0000
+       
+       Simultaneous 0.8871    0.0886    0.7742    0.2442    0.6977    0.1130
+ 
+ 500   Our Method   0.2000    0.4706    0.1818    0.6058    0.2286    0.5806
+ 
+       Sep Lasso    0.9277    1.0000    0.9042    1.0000    0.8911    1.0000
+ 
+       MRCE         0.9896    0.2941    0.9792    0.3846    0.9517    1.0000
+       
+       Simultaneous NA        NA        NA        NA        NA        NA       
+ 
+ 1000  Our Method   0.2564    0.3671    0.1600    0.5478    0.1807    0.6018
+ 
+       Sep Lasso    0.9473    1.0000    0.9109    1.0000    0.9198    1.0000
+ 
+       MRCE         0.9886    0.5641    0.9859    0.4500    0.9864    0.3939
+       
+       Simultaneous NA        NA        NA        NA        NA        NA        
+
+-------------------------------------------------------------------------------
+
+Table: CDF Transformation
+
+
+
+------------------------------------------------------------------------------
+ n=                   100                 500                 1000
+----- ------------ --------- --------- --------- --------- --------- ---------
+  p      Method       FDR       PDR       FDR       PDR       FDR       PDR
+ 
+ 100   Our Method   0.1667    0.6000    0.1803    0.5882    0.1917    0.5268
+ 
+       Sep Lasso    0.7826    1.0000    0.7529    1.0000    0.7466    1.0000
+ 
+       MRCE         0.9505    0.0667    0.3103    0.2352    0.0000    0.0535
+       
+       Simultaneous 0.7209    0.1600    0.7200    0.2471    0.6216    0.1250
+ 
+ 200   Our Method   0.1136    0.5132    0.1298    0.6262    0.1447    0.5804
+ 
+       Sep Lasso    0.8886    1.0000    0.8205    1.0000    0.8333    1.0000
+ 
+       MRCE         0.0000    0.0526    0.1111    0.0748    0.0000    0.0179
+       
+       Simultaneous 0.8085    0.1184    0.6964    0.1589    0.7629    0.2054
+ 
+ 500   Our Method   0.2439    0.3605    0.1973    0.6289    0.1538    0.5739
+ 
+       Sep Lasso    0.9167    1.0000    0.8983    1.0000    0.8714    1.0000
+ 
+       MRCE         0.0000    0.0116    0.6364    0.0825    0.0000    0.0522
+       
+       Simultaneous NA        NA        NA        NA        NA        NA       
+ 
+ 1000  Our Method   0.2683    0.3793    0.1667    0.5652    0.1392    0.6018
+ 
+       Sep Lasso    0.9360    1.0000    0.9196    1.0000    0.9327    1.0000
+ 
+       MRCE         0.9929    0.1392    0.9859    0.4500    0.9865    0.3939
+       
+       Simultaneous NA        NA        NA        NA        NA        NA       
+
+-------------------------------------------------------------------------------
+
+Table: Power Transformation
+
+# Improvement
+
+Next time, We can test the special structure of X and test more specific pattern of the precision matrix. Another important thing is that 
+we still need to improve the calculation speed when estimate of $\beta$ for the given features. 
